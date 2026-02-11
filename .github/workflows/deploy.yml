@@ -1,4 +1,4 @@
-name: Validate HTML & CSS
+name: Build and Deploy
 
 on:
   push:
