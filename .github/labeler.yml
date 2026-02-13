@@ -1,0 +1,11 @@
+html:
+  - "*.html"
+
+css:
+  - "*.css"
+
+github-actions:
+  - ".github/workflows/**"
+
+labeler-config:
+  - ".github/labeler.yml"
