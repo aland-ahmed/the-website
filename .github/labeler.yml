@@ -1,11 +1,15 @@
 html:
-  - "*.html"
+  - changed-files:
+      - any-glob-to-any-file: "*.html"
 
 css:
-  - "*.css"
+  - changed-files:
+      - any-glob-to-any-file: "*.css"
 
 github-actions:
-  - ".github/workflows/**"
+  - changed-files:
+      - any-glob-to-any-file: ".github/workflows/**"
 
 labeler-config:
-  - ".github/labeler.yml"
+  - changed-files:
+      - any-glob-to-any-file: ".github/labeler.yml"
