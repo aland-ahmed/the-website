@@ -1,0 +1,56 @@
+name: Pull Request Checks
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Check file sizes
+        run: |
+          echo "Checking file sizes..."
+          find . -name "*.html" -o -name "*.css" | while read file; do
+            size=$(wc -c < "$file")
+            echo "$file: $size bytes"
+            if [ $size -gt 100000 ]; then
+              echo "⚠️ Warning: $file is larger than 100KB"
+            fi
+          done
+
+      - name: Check for TODO comments
+        run: |
+          if grep -r "TODO" --include="*.html" --include="*.css" .; then
+            echo "⚠️ Found TODO comments - review before merging"
+            exit 1
+          else
+            echo "✅ No TODO comments found"
+          fi
+        continue-on-error: true
+
+      - name: Validate HTML structure
+        run: |
+          if grep -q "<html" index.html && grep -q "</html>" index.html; then
+            echo "✅ HTML structure looks good"
+          else
+            echo "❌ HTML structure invalid"
+            exit 1
+          fi
+
+  label-pr:
+    runs-on: ubuntu-24.04
+
+    permissions:
+      pull-requests: write
+
+    steps:
+      - name: Label PR based on files changed
+        uses: actions/labeler@v6
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
