@@ -28,15 +28,16 @@ jobs:
 
       - name: Copy files to build
         run: |
-          cp index.html build/
-          cp style.css build/
+          cp apps/website/index.html build/
+          cp apps/website/style.css build/
           echo "Build completed at $(date)" > build/build-info.txt
-
+          echo "Commit: ${{ github.sha }}" >> build/build-info.txt
       - name: Upload artifact
         uses: actions/upload-artifact@v6
         with:
           name: website
           path: build/
+          retention-days: 30
 
   deploy:
     needs: build

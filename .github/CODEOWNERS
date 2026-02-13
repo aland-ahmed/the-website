@@ -1,0 +1,15 @@
+# Default owners for everything
+* @aland-ahmed
+
+# Workflow files need extra review
+/.github/workflows/ @aland-ahmed
+
+# HTML/CSS changes
+*.html @aland-ahmed
+*.css @aland-ahmed
+
+# In a real team, you'd have:
+# /frontend/ @frontend-team
+# /backend/ @backend-team
+# /infrastructure/ @devops-team
+# *.yml @devops-team
