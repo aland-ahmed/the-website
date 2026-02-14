@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: the-website
+    version: v1.0.0
+  name: the-website
+  namespace: gitops-demo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: the-website
+  template:
+    metadata:
+      labels:
+        app: the-website
+        version: v1.0.0
+    spec:
+      containers:
+        - image: the-website:v1.0.0
+          imagePullPolicy: IfNotPresent
+          name: the-website
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
