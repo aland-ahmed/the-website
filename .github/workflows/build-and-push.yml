@@ -1,0 +1,196 @@
+name: Build Docker Image and Update Manifests
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "apps/website/**"
+      - "!apps/website/*.md" # Ignore markdown files
+
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository_owner}}/the-website
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+
+    permissions:
+      contents: write # To push manifest updates
+      packages: write # To push to GHCR
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0 # Fetch full history for git commands
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up docker buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY}}
+          username: ${{ github.actor}}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate version tag
+        id: version
+        run: |
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+          VERSION="v1.0.0-${SHORT_SHA}"
+
+          echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
+          echo "SHORT_SHA=${SHORT_SHA}" >> $GITHUB_OUTPUT
+          echo "TIMESTAMP=${TIMESTAMP}" >> $GITHUB_OUTPUT
+
+          echo "📦 Generated version: ${VERSION}"
+
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY}}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=raw,value=${{ steps.version.outputs.VERSION }}
+            type=semver,value=latest
+            type=sha,prefix=,format=short
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./apps/website/
+          file: ./apps/website/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          platforms: linux/amd64
+
+      - name: Setup Kustomize
+        uses: imranismail/setup-kustomize@v2
+        with:
+          kustomize-version: "5.8.1"
+
+      - name: Update Kubernetes manifests with Kustomize
+        run: |
+          echo "🔄 Updating image tags in manifests using Kustomize..."
+
+          NEW_IMAGE="${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.VERSION }}"
+
+          # Update each overlay
+          for overlay_dir in infrastructure/kubernetes/overlays/*/; do
+            if [ -f "${overlay_dir}kustomization.yaml" ]; then
+              echo "📝 Updating ${overlay_dir}"
+
+              cd "${overlay_dir}"
+
+              # Set the new image with tag
+              kustomize edit set image \
+                "ghcr.io/*=/the-website=${NEW_IMAGE}" \
+                "the-website=${NEW_IMAGE}"
+
+              # Go back to root
+              cd -
+
+              echo "✅ Updated ${overlay_dir}kustomization.yaml"
+            fi
+          done
+
+          echo ""
+          echo "📋 Changes made:"
+          git diff infrastructure/kubernetes/overlays/
+
+      - name: Verify Kustomize builds
+        run: |
+          echo "🔍 Verifying kustomize builds..."
+
+          for overlay_dir in infrastructure/kubernetes/overlays/*/; do
+            if [ -f "${overlay_dir}kustomization.yaml" ]; then
+              overlay_name=$(basename "$overlay_dir")
+              echo "Validating ${overlay_name}..."
+
+              if kustomize build "${overlay_dir}" > /dev/null; then
+                echo "✅ ${overlay_name} - Valid"
+              else
+                echo "❌ ${overlay_name} - Invalid!"
+                exit 1
+              fi
+            fi
+          done
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add infrastructure/kubernetes/overlays/
+
+          if git diff --staged --quiet; then
+            echo "ℹ️ No changes to commit"
+            exit 0
+          fi
+
+          git commit -m "🚀 Update image to ${{ steps.version.outputs.VERSION }}
+
+          Automated update by GitHub Actions
+          Image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.VERSION }}
+          Commit: ${{ github.sha }}
+
+          [skip ci]"
+
+          git push
+
+      - name: Generate deployment summary
+        run: |
+          cat >> $GITHUB_STEP_SUMMARY << EOF
+          ## 🚀 Docker Image Build & Push Complete
+
+          ### Image Details
+          - **Registry:** \`${{ env.REGISTRY }}\`
+          - **Image:** \`${{ env.IMAGE_NAME }}\`
+          - **Version:** \`${{ steps.version.outputs.VERSION }}\`
+          - **Full Image:** \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.VERSION }}\`
+          - **Commit:** \`${{ steps.version.outputs.SHORT_SHA }}\`
+          - **Timestamp:** \`${{ steps.version.outputs.TIMESTAMP }}\`
+
+          ### Image Tags
+          \`\`\`
+          ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.VERSION }}
+          ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.SHORT_SHA }}
+          \`\`\`
+
+          ### Manifests Updated
+          ✅ All Kustomize overlays updated and validated
+
+          ### ArgoCD Sync Status
+          Manifests updated in \`infrastructure/kubernetes/overlays/\`
+
+          ArgoCD will automatically sync:
+          - ✅ **Development** (auto-sync enabled)
+          - ✅ **Staging** (auto-sync enabled)
+          - ⏸️ **Production** (manual sync required)
+
+          ### Next Steps
+          1. ArgoCD will detect changes within ~3 minutes
+          2. Dev and Staging environments will auto-deploy
+          3. Production requires manual approval in ArgoCD UI
+
+          ### Pull Image
+          \`\`\`bash
+          docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.VERSION }}
+          \`\`\`
+
+          ### Verify Locally
+          \`\`\`bash
+          kustomize build infrastructure/kubernetes/overlays/dev
+          \`\`\`
+          EOF

@@ -5,7 +5,8 @@ on:
     branches:
       - master
     paths:
-      - "apps/website/**"
+      - "apps/website/index.html"
+      - "apps/website/style.css"
   workflow_dispatch:
 
 permissions:
