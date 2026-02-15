@@ -15,3 +15,5 @@ labels:
 replicas:
 - count: 3
   name: the-website
+patches:
+- path: ./patch.yaml
