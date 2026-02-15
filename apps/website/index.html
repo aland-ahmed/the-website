@@ -3,49 +3,307 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My GitOps Journey</title>
+    <title>GitOps Journey - Infrastructure as Code</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+
     <nav>
-      <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#gitops">GitOps</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
+      <div class="nav-container">
+        <div class="logo">
+          <span class="logo-icon">⚙️</span>
+          <span class="logo-text">GitOps</span>
+        </div>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#journey">Journey</a></li>
+          <li><a href="#architecture">Architecture</a></li>
+          <li><a href="#stack">Stack</a></li>
+        </ul>
+      </div>
     </nav>
-    <header>
-      <h1>Welcome to My GitOps Learning Project</h1>
+
+    <header id="home">
+      <div class="hero-content">
+        <h1 class="glitch" data-text="GitOps in Action">GitOps in Action</h1>
+        <p class="hero-subtitle">
+          Declarative Infrastructure | Automated Deployments | Git as Truth
+        </p>
+        <div class="hero-badges">
+          <span class="badge badge-green">✓ ArgoCD</span>
+          <span class="badge badge-blue">✓ Kubernetes</span>
+          <span class="badge badge-purple">✓ GitHub Actions</span>
+        </div>
+      </div>
+      <div class="scroll-indicator">
+        <span>↓</span>
+      </div>
     </header>
+
     <main>
-      <p>This is where my journey begins!</p>
-      <p>I'm learning Git, GitHub, and GitOps principles.</p>
+      <section id="journey" class="section">
+        <div class="container">
+          <h2 class="section-title">
+            <span class="title-icon">🚀</span>
+            The Journey
+          </h2>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-marker">1</div>
+              <div class="timeline-content">
+                <h3>Git Fundamentals</h3>
+                <p>
+                  Mastered branching, merging, and PR workflows. Understanding
+                  Git as version control foundation.
+                </p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-marker">2</div>
+              <div class="timeline-content">
+                <h3>CI/CD with GitHub Actions</h3>
+                <p>
+                  Built automated pipelines for testing, building, and
+                  deploying. Image pushed to GHCR automatically.
+                </p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-marker">3</div>
+              <div class="timeline-content">
+                <h3>Containerization</h3>
+                <p>
+                  Dockerized applications with multi-stage builds, security best
+                  practices, and optimized images.
+                </p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-marker">4</div>
+              <div class="timeline-content">
+                <h3>Kubernetes & ArgoCD</h3>
+                <p>
+                  Deployed to K8s with GitOps. ArgoCD watches manifests and
+                  auto-syncs cluster state with Git.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="architecture" class="section section-dark">
+        <div class="container">
+          <h2 class="section-title">
+            <span class="title-icon">📐</span>
+            Architecture
+          </h2>
+          <div class="architecture-diagram">
+            <div class="arch-box arch-git">
+              <h4>Git Repository</h4>
+              <p>Single Source of Truth</p>
+              <span class="arch-icon">📦</span>
+            </div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-box arch-ci">
+              <h4>GitHub Actions</h4>
+              <p>Build & Push Image</p>
+              <span class="arch-icon">⚡</span>
+            </div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-box arch-registry">
+              <h4>GHCR</h4>
+              <p>Container Registry</p>
+              <span class="arch-icon">🐳</span>
+            </div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-box arch-argocd">
+              <h4>ArgoCD</h4>
+              <p>GitOps Operator</p>
+              <span class="arch-icon">🔄</span>
+            </div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-box arch-k8s">
+              <h4>Kubernetes</h4>
+              <p>Orchestration</p>
+              <span class="arch-icon">☸️</span>
+            </div>
+          </div>
+          <div class="gitops-principles">
+            <div class="principle">
+              <span class="principle-icon">📝</span>
+              <h4>Declarative</h4>
+              <p>Everything defined as code</p>
+            </div>
+            <div class="principle">
+              <span class="principle-icon">🔒</span>
+              <h4>Versioned</h4>
+              <p>Immutable Git history</p>
+            </div>
+            <div class="principle">
+              <span class="principle-icon">🤖</span>
+              <h4>Automated</h4>
+              <p>Self-healing deployments</p>
+            </div>
+            <div class="principle">
+              <span class="principle-icon">🔍</span>
+              <h4>Auditable</h4>
+              <p>Complete change history</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="stack" class="section">
+        <div class="container">
+          <h2 class="section-title">
+            <span class="title-icon">🛠️</span>
+            Technology Stack
+          </h2>
+          <div class="tech-grid">
+            <div class="tech-card">
+              <div class="tech-icon">🐙</div>
+              <h3>Git & GitHub</h3>
+              <p>
+                Version control, branching strategies, and collaborative
+                workflows
+              </p>
+              <div class="tech-tags">
+                <span>Branching</span>
+                <span>PRs</span>
+                <span>Hooks</span>
+              </div>
+            </div>
+            <div class="tech-card">
+              <div class="tech-icon">🎬</div>
+              <h3>GitHub Actions</h3>
+              <p>
+                CI/CD pipelines for automated testing, building, and deployment
+              </p>
+              <div class="tech-tags">
+                <span>Workflows</span>
+                <span>Secrets</span>
+                <span>Artifacts</span>
+              </div>
+            </div>
+            <div class="tech-card">
+              <div class="tech-icon">🐳</div>
+              <h3>Docker</h3>
+              <p>
+                Container images with multi-stage builds and security hardening
+              </p>
+              <div class="tech-tags">
+                <span>Dockerfile</span>
+                <span>GHCR</span>
+                <span>Optimization</span>
+              </div>
+            </div>
+            <div class="tech-card">
+              <div class="tech-icon">☸️</div>
+              <h3>Kubernetes</h3>
+              <p>
+                Container orchestration with declarative manifests and Kustomize
+              </p>
+              <div class="tech-tags">
+                <span>Deployments</span>
+                <span>Services</span>
+                <span>Ingress</span>
+              </div>
+            </div>
+            <div class="tech-card">
+              <div class="tech-icon">🔄</div>
+              <h3>ArgoCD</h3>
+              <p>
+                GitOps continuous delivery with automated sync and self-healing
+              </p>
+              <div class="tech-tags">
+                <span>Auto-Sync</span>
+                <span>Rollback</span>
+                <span>Multi-Env</span>
+              </div>
+            </div>
+            <div class="tech-card">
+              <div class="tech-icon">📦</div>
+              <h3>Kustomize</h3>
+              <p>Template-free Kubernetes configuration management</p>
+              <div class="tech-tags">
+                <span>Overlays</span>
+                <span>Patches</span>
+                <span>Bases</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-dark">
+        <div class="container">
+          <div class="cta-box">
+            <h2>Deployed via GitOps</h2>
+            <p>
+              This website is automatically deployed using the GitOps workflow.
+              Every commit triggers CI/CD, and ArgoCD ensures the cluster
+              matches Git state.
+            </p>
+            <div class="deployment-info">
+              <div class="info-item">
+                <span class="info-label">Environment:</span>
+                <span class="info-value" id="env-name">Development</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Auto-Sync:</span>
+                <span class="info-value">Enabled ✓</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Replicas:</span>
+                <span class="info-value">3 Pods</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
-    <section id="about">
-      <h2>About This Project</h2>
-      <p>Learning GitOps practices step by step...</p>
-    </section>
-    <section id="gitops">
-      <h2>What is GitOps?</h2>
-      <p>
-        GitOps is a way of implementing Continuous Deployment for cloud native
-        applications.
-      </p>
-      <p>
-        It focuses on using Git as a single source of truth for declarative
-        infrastructure and applications.
-      </p>
-      <ul>
-        <li>Declarative configuration</li>
-        <li>Version controlled</li>
-        <li>Automated deployment</li>
-        <li>Continuous reconciliation</li>
-      </ul>
-    </section>
+
     <footer>
-      <p>© 2026 GitOps Learning | Built with ❤️, 🦦 and 🦭 for GitOps</p>
-      <p>Last updated: February 2026</p>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>GitOps Learning</h4>
+          <p>From Git fundamentals to production-ready infrastructure</p>
+        </div>
+        <div class="footer-section">
+          <h4>Technologies</h4>
+          <p>Git • Docker • Kubernetes • ArgoCD • GitHub Actions</p>
+        </div>
+        <div class="footer-section">
+          <h4>Status</h4>
+          <p><span class="status-dot"></span> All systems operational</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>
+          © 2026 GitOps Journey | Built with ❤️, 🦦 and 🦭 | Deployed by ArgoCD
+        </p>
+      </div>
     </footer>
+
+    <script>
+      // Detect environment from hostname
+      const hostname = window.location.hostname;
+      const envElement = document.getElementById("env-name");
+
+      if (hostname.includes("-dev")) {
+        envElement.textContent = "Development";
+        envElement.style.color = "#10b981";
+      } else if (hostname.includes("-staging")) {
+        envElement.textContent = "Staging";
+        envElement.style.color = "#f59e0b";
+      } else if (hostname.includes("the-website.local")) {
+        envElement.textContent = "Production";
+        envElement.style.color = "#ef4444";
+      }
+    </script>
   </body>
 </html>
