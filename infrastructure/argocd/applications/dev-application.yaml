@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: the-website-dev
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  
+  source:
+    repoURL: https://github.com/aland-ahmed/the-website.git
+    targetRevision: master  # or main, depending on your default branch
+    path: infrastructure/kubernetes/overlays/development
+  
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: gitops-demo-dev
+  
+  syncPolicy:
+    automated:
+      prune: true       # Delete resources removed from git
+      selfHeal: true    # Force sync when cluster differs from git
+      allowEmpty: false
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
