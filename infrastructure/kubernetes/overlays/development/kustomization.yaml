@@ -5,6 +5,9 @@ resources:
 nameSuffix: -dev
 namespace: gitops-demo-dev
 images:
+- name: my-website
+  newName: ghcr.io/aland-ahmed/the-website
+  newTag: v1.0.0-9e97aeb
 - name: the-website
   newTag: v1.0.0
 labels:
