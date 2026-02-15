@@ -7,7 +7,7 @@ namespace: gitops-demo-dev
 images:
 - name: the-website
   newName: ghcr.io/aland-ahmed/the-website
-  newTag: v1.0.0-2c86c03
+  newTag: v1.0.0-7baac8b
 labels:
 - includeSelectors: true
   pairs:
