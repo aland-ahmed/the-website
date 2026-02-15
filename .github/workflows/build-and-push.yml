@@ -59,8 +59,15 @@ jobs:
           images: ${{ env.REGISTRY}}/${{ env.IMAGE_NAME }}
           tags: |
             type=raw,value=${{ steps.version.outputs.VERSION }}
-            type=semver,value=latest
-            type=sha,prefix=,format=short
+            type=raw,value=latest
+            type=sha,prefix=sha-
+          labels: |
+            org.opencontainers.image.title=My GitOps Website
+            org.opencontainers.image.description=Learning GitOps with ArgoCD
+            org.opencontainers.image.version=${{ steps.version.outputs.VERSION }}
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.created=${{ steps.version.outputs.TIMESTAMP }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
@@ -93,9 +100,7 @@ jobs:
               cd "${overlay_dir}"
 
               # Set the new image with tag
-              kustomize edit set image \
-                "ghcr.io/*=/the-website=${NEW_IMAGE}" \
-                "the-website=${NEW_IMAGE}"
+              kustomize edit set image my-website="${NEW_IMAGE}"
 
               # Go back to root
               cd -
@@ -165,32 +170,20 @@ jobs:
           \`\`\`
           ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.VERSION }}
           ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-          ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.SHORT_SHA }}
+          ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:sha-${{ steps.version.outputs.SHORT_SHA }}
           \`\`\`
 
           ### Manifests Updated
           ✅ All Kustomize overlays updated and validated
 
           ### ArgoCD Sync Status
-          Manifests updated in \`infrastructure/kubernetes/overlays/\`
-
           ArgoCD will automatically sync:
           - ✅ **Development** (auto-sync enabled)
           - ✅ **Staging** (auto-sync enabled)
           - ⏸️ **Production** (manual sync required)
 
-          ### Next Steps
-          1. ArgoCD will detect changes within ~3 minutes
-          2. Dev and Staging environments will auto-deploy
-          3. Production requires manual approval in ArgoCD UI
-
           ### Pull Image
           \`\`\`bash
           docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.VERSION }}
-          \`\`\`
-
-          ### Verify Locally
-          \`\`\`bash
-          kustomize build infrastructure/kubernetes/overlays/dev
           \`\`\`
           EOF
