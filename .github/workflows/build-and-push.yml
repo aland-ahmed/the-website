@@ -100,7 +100,7 @@ jobs:
               cd "${overlay_dir}"
 
               # Set the new image with tag
-              kustomize edit set image my-website="${NEW_IMAGE}"
+              kustomize edit set image the-website="${NEW_IMAGE}"
 
               # Go back to root
               cd -
