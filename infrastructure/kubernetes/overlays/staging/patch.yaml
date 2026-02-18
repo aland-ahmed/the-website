@@ -4,7 +4,6 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
   name: the-website
-  namespace: gitops-demo
 spec:
   ingressClassName: nginx
   rules:

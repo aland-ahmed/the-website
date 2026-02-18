@@ -1,0 +1,57 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: the-website
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]   # fail loudly if a variable is missing
+  generators:
+  - list:
+      elements:
+      - env: dev
+        namespace: the-website-dev
+        revision: master
+        autoPrune: true
+        selfHeal: true
+      - env: staging
+        namespace: the-website-staging
+        revision: master
+        autoPrune: true
+        selfHeal: false                     # staging — manual intervention on drift
+      - env: prod
+        namespace: the-website-prod
+        revision: master
+        autoPrune: false                    # prod — never auto-prune
+        selfHeal: false                     # prod — alert on drift, don't auto-fix
+  template:
+    metadata:
+      name: "the-website-{{ .env }}"
+      namespace: argocd
+      labels:
+        app.kubernetes.io/name: the-website
+        app.kubernetes.io/instance: "the-website-{{ .env }}"
+        environment: "{{ .env }}"
+    spec:
+      project: the-website-proj
+      source:
+        repoURL: https://github.com/aland-ahmed/the-website.git
+        targetRevision: "{{ .revision }}"
+        path: "infrastructure/kubernetes/overlays/{{ .env }}"
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "{{ .namespace }}"
+      syncPolicy:
+        automated:
+          prune: "{{ .autoPrune }}"
+          selfHeal: "{{ .selfHeal }}"
+          allowEmpty: false
+        syncOptions:
+        - CreateNamespace=true
+        - ServerSideApply=true
+        retry:
+          limit: 5
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 3m

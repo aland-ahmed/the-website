@@ -2,20 +2,23 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: the-website
-    version: v1.0.0
+    app.kubernetes.io/name: the-website
+    app.kubernetes.io/component: frontend
+    app.kubernetes.io/part-of: mastering-gitops
   name: the-website
-  namespace: gitops-demo
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
-      app: the-website
+      app.kubernetes.io/name: the-website
+      app.kubernetes.io/instance: the-website  # placeholder — overlay must override
   template:
     metadata:
       labels:
-        app: the-website
-        version: v1.0.0
+        app.kubernetes.io/name: the-website
+        app.kubernetes.io/instance: the-website # placeholder — overlay must override
+        app.kubernetes.io/component: frontend
+        app.kubernetes.io/part-of: mastering-gitops
     spec:
       containers:
         - image: the-website:v1.0.0
@@ -32,3 +35,12 @@ spec:
             limits:
               memory: "128Mi"
               cpu: "200m"
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+            capabilities:
+              drop: ["ALL"]
+      securityContext:
+        fsGroup: 1000

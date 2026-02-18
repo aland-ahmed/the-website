@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: gitops-demo
-  labels:
-    name: gitops-demo
-    environment: development

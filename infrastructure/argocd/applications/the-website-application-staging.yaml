@@ -1,24 +1,21 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: the-website-dev
+  name: the-website-staging
   namespace: argocd
 spec:
-  project: default
-  
+  project: the-website-proj 
   source:
     repoURL: https://github.com/aland-ahmed/the-website.git
-    targetRevision: master  # or main, depending on your default branch
-    path: infrastructure/kubernetes/overlays/development
-  
+    targetRevision: master
+    path: infrastructure/kubernetes/overlays/staging
   destination:
     server: https://kubernetes.default.svc
-    namespace: gitops-demo-dev
-  
+    namespace: the-website-staging
   syncPolicy:
     automated:
-      prune: true       # Delete resources removed from git
-      selfHeal: true    # Force sync when cluster differs from git
+      prune: true
+      selfHeal: true
       allowEmpty: false
     syncOptions:
       - CreateNamespace=true

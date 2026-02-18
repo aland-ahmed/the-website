@@ -2,13 +2,15 @@ apiVersion: v1
 kind: Service
 metadata:
   name: the-website
-  namespace: gitops-demo
   labels:
-    app: the-website
+    app.kubernetes.io/name: the-website
+    app.kubernetes.io/component: frontend
+    app.kubernetes.io/part-of: mastering-gitops
 spec:
   type: ClusterIP
   selector:
-    app: the-website
+    app.kubernetes.io/name: the-website
+    app.kubernetes.io/instance: the-website   # placeholder — must match pod labels
   ports:
     - name: http
       port: 80
