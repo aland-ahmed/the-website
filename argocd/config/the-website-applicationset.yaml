@@ -3,8 +3,8 @@ kind: ApplicationSet
 metadata:
   name: the-website
   namespace: argocd
-  finalizers:
-  - resources-finalizer.argocd.argoproj.io/background
+  #finalizers:
+  #- resources-finalizer.argocd.argoproj.io/background
   annotations:
     argocd.argoproj.io/sync-wave: "1"
 spec:
@@ -26,8 +26,8 @@ spec:
     metadata:
       name: "the-website-{{ .env }}"
       namespace: argocd
-      finalizers:
-      - resources-finalizer.argocd.argoproj.io/background
+      #finalizers:
+      #- resources-finalizer.argocd.argoproj.io/background
       labels:
         app.kubernetes.io/name: the-website
         app.kubernetes.io/instance: "the-website-{{ .env }}"

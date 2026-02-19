@@ -5,8 +5,8 @@ metadata:
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "0"
-  finalizers:
-  - resources-finalizer.argocd.argoproj.io/background   # prevents deletion while apps exist
+  #finalizers:
+  #- resources-finalizer.argocd.argoproj.io/background   # prevents deletion while apps exist
 spec:
   description: The Website application — all environments
 

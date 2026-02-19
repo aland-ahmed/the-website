@@ -3,8 +3,8 @@ kind: Application
 metadata:
   name: argocd-root
   namespace: argocd
-  finalizers:
-  - resources-finalizer.argocd.argoproj.io/background
+  #finalizers:
+  #- resources-finalizer.argocd.argoproj.io/background
 spec:
   project: default                # uses the built-in default project
   source:

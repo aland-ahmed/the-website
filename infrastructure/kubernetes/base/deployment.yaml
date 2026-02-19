@@ -35,12 +35,12 @@ spec:
             limits:
               memory: "128Mi"
               cpu: "200m"
-          securityContext:
-            allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
-            runAsNonRoot: true
-            runAsUser: 1000
-            capabilities:
-              drop: ["ALL"]
-      securityContext:
-        fsGroup: 1000
+          #securityContext:
+          #  allowPrivilegeEscalation: false
+          #  readOnlyRootFilesystem: true
+          #  runAsNonRoot: true
+          #  runAsUser: 1000
+          #  capabilities:
+          #    drop: ["ALL"]
+      #securityContext:
+        #fsGroup: 1000
