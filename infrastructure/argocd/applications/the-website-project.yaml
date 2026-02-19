@@ -1,0 +1,74 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: the-website-proj
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io/background   # prevents deletion while apps exist
+spec:
+  description: The Website application — all environments
+
+  sourceRepos:
+  - https://github.com/aland-ahmed/the-website.git
+
+  destinations:
+  - namespace: the-website-dev
+    server: https://kubernetes.default.svc
+  - namespace: the-website-staging
+    server: https://kubernetes.default.svc
+  - namespace: the-webiste-prod
+    server: https://kubernetes.default.svc
+
+  # what cluster-scoped resources this project can create
+  clusterResourceWhitelist:
+  - group: ""
+    kind: Namespace                            # needed for CreateNamespace=true
+
+  # what namespace-scoped resources this project can manage
+  namespaceResourceWhitelist:
+  - group: apps
+    kind: Deployment
+  - group: apps
+    kind: StatefulSet
+  - group: ""
+    kind: Service
+  - group: ""
+    kind: ConfigMap
+  - group: ""
+    kind: ServiceAccount
+  - group: networking.k8s.io
+    kind: Ingress
+  - group: autoscaling
+    kind: HorizontalPodAutoscaler
+  - group: bitnami.com
+    kind: SealedSecret                         # if using Sealed Secrets
+  - group: external-secrets.io
+    kind: ExternalSecret                       # if using ESO
+
+  # prevent this project's apps from syncing during specific windows
+  syncWindows:
+  - kind: deny
+    schedule: "0 22 * * 1-5"                  # no deploys weekdays 10pm
+    duration: 8h
+    applications:
+    - the-website-prod
+    manualSync: false                          # block even manual sync to prod overnight
+
+  roles:
+  - name: developer
+    description: Read-only access to all envs, sync access to dev and staging
+    policies:
+    - p, proj:the-website-proj:developer, applications, get, the-website-proj/*, allow
+    - p, proj:the-website-proj:developer, applications, sync, the-website-proj/the-website-dev, allow
+    - p, proj:the-website-proj:developer, applications, sync, the-website-proj/the-website-staging, allow
+    groups:
+    - the-website-developers                   # maps to your SSO group
+
+  - name: release-manager
+    description: Full sync access including prod
+    policies:
+    - p, proj:the-website-proj:release-manager, applications, *, the-website-proj/*, allow
+    groups:
+    - the-website-release-managers

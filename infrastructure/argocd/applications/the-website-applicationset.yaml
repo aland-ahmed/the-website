@@ -3,6 +3,8 @@ kind: ApplicationSet
 metadata:
   name: the-website
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]   # fail loudly if a variable is missing
