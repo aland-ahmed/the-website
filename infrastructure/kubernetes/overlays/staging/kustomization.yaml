@@ -4,8 +4,8 @@ kind: Kustomization
 resources:
 - ../../base
 
-nameSuffix: -dev
-namespace: dev
+nameSuffix: -staging
+namespace: staging
 
 images:
 - name: the-website
@@ -14,28 +14,45 @@ images:
 
 labels:
 - pairs:
-    app.kubernetes.io/instance: the-website-dev
+    app.kubernetes.io/instance: the-website-staging
     app.kubernetes.io/version: v1.0.0-7baac8b
-    environment: dev
+    environment: staging
   includeSelectors: false # never let kustomize touch selectors
   includeTemplates: true # stamp these onto pod template labels too
 
 replicas:
-- count: 1
+- count: 3
   name: the-website
 
 patches:
 - patch: |-
     - op: replace
       path: /spec/rules/0/host
-      value: dev.the-website.local
+      value: staging.the-website.local
   target:
     kind: Ingress
     name: the-website
 - patch: |-
     - op: replace
       path: /spec/selector/app.kubernetes.io~1instance
-      value: the-website-dev
+      value: the-website-staging
   target:
     kind: Service
+    name: the-website
+- patch: |-
+    - op: replace
+      path: /spec/selector/matchLabels/app.kubernetes.io~1instance
+      value: the-website-staging
+  target:
+    kind: Deployment
+    name: the-website
+- patch: |-
+    - op: replace
+      path: /spec/minReplicas
+      value: 3
+    - op: replace
+      path: /spec/maxReplicas
+      value: 6
+  target:
+    kind: HorizontalPodAutoscaler
     name: the-website

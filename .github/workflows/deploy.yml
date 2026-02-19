@@ -5,8 +5,8 @@ on:
     branches:
       - master
     paths:
-      - "apps/website/index.html"
-      - "apps/website/style.css"
+      - "./index.html"
+      - "./style.css"
   workflow_dispatch:
 
 permissions:
@@ -31,8 +31,8 @@ jobs:
 
       - name: Copy files to build
         run: |
-          cp apps/website/index.html build/
-          cp apps/website/style.css build/
+          cp ./index.html build/
+          cp ./style.css build/
           echo "Build completed at $(date)" > build/build-info.txt
           echo "Commit: ${{ github.sha }}" >> build/build-info.txt
       - name: Upload artifact

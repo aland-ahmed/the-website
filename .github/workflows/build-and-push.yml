@@ -5,8 +5,11 @@ on:
     branches:
       - master
     paths:
-      - "apps/website/**"
-      - "!apps/website/*.md" # Ignore markdown files
+      - "./*.html"
+      - "./*.css"
+      - "./Dockerfile"
+      - "./nginx.conf"
+      - "!*.md" # Ignore markdown files
 
   workflow_dispatch:
 
