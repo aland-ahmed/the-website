@@ -9,7 +9,7 @@ spec:
   project: default                # uses the built-in default project
   source:
     repoURL: https://github.com/aland-ahmed/the-website.git
-    targetRevision: main
+    targetRevision: master
     path: argocd/config
   destination:
     server: https://kubernetes.default.svc
