@@ -18,7 +18,7 @@ spec:
     server: https://kubernetes.default.svc
   - namespace: the-website-staging
     server: https://kubernetes.default.svc
-  - namespace: the-webiste-prod
+  - namespace: the-website-prod
     server: https://kubernetes.default.svc
 
   # what cluster-scoped resources this project can create
