@@ -13,7 +13,7 @@ spec:
     app.kubernetes.io/instance: the-website   # placeholder — must match pod labels
   ports:
     - name: http
-      port: 80
+      port: 8082
       targetPort: 8080
       protocol: TCP
   sessionAffinity: ClientIP
