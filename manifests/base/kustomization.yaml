@@ -1,11 +1,6 @@
+---
 resources:
-- deployment.yaml
-- service.yaml
-- configmap.yaml
-- secret.yaml
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-images:
-- name: the-website
-  newName: ghcr.io/aland-ahmed/the-website
-  newTag: v1.0.0-a3c0421
+  - deployment.yaml
+  - service.yaml
+  - configmap.yaml
+  - secret.yaml
