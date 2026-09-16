@@ -3,263 +3,309 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GitOps Journey - Infrastructure as Code</title>
+    <title>GitOps Journey</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="stars"></div>
-    <div class="stars2"></div>
-    <div class="stars3"></div>
+    <div class="page-glow glow-one"></div>
+    <div class="page-glow glow-two"></div>
 
-    <nav>
-      <div class="nav-container">
-        <div class="logo">
-          <span class="logo-icon">⚙️</span>
-          <span class="logo-text">GitOps</span>
+    <nav class="topbar">
+      <div class="container nav-wrap">
+        <div class="brand" aria-label="GitOps home">
+          <span class="brand-mark">⚙️</span>
+          <span class="brand-name">GitOps</span>
         </div>
-        <ul>
-          <li><a href="#home">Home</a></li>
-          <li><a href="#journey">Journey</a></li>
-          <li><a href="#architecture">Architecture</a></li>
-          <li><a href="#stack">Stack</a></li>
-        </ul>
+        <div class="nav-links">
+          <a href="#home">Home</a>
+          <a href="#journey">Journey</a>
+          <a href="#architecture">Architecture</a>
+          <a href="#stack">Stack</a>
+        </div>
       </div>
     </nav>
 
-    <header id="home">
-      <div class="hero-content">
-        <h1 class="glitch" data-text="GitOps in Action">GitOps in Action</h1>
-        <p class="hero-subtitle">
-          Declarative Infrastructure | Automated Deployments | Git as Truth
-        </p>
-        <div class="hero-badges">
-          <span class="badge badge-green">✓ ArgoCD</span>
-          <span class="badge badge-blue">✓ Kubernetes</span>
-          <span class="badge badge-purple">✓ GitHub Actions</span>
+    <header id="home" class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Continuous delivery • GitOps</p>
+          <h1>
+            Ship faster.<br />
+            <span>Deploy with confidence.</span>
+          </h1>
+          <p class="subtitle">
+            Declarative infrastructure, automated release pipelines, and Git as
+            the source of truth for resilient deployment workflows.
+          </p>
+
+          <div class="cta-row">
+            <a href="#journey" class="btn btn-primary">Explore the journey</a>
+            <a href="#stack" class="btn btn-secondary">See the stack</a>
+          </div>
+
+          <div class="mini-stats">
+            <div>
+              <strong>4-step</strong>
+              <span>delivery flow</span>
+            </div>
+            <div>
+              <strong>Auto-sync</strong>
+              <span>cluster state</span>
+            </div>
+            <div>
+              <strong>Git-first</strong>
+              <span>deployment model</span>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="scroll-indicator">
-        <span>↓</span>
+
+        <div class="hero-visual" aria-label="GitOps deployment visualization">
+          <div class="orbital-card">
+            <div class="signal-line">
+              <span class="signal-label">main</span>
+              <span class="signal-status">live</span>
+            </div>
+
+            <div class="orbital-system">
+              <div class="orbital-core">GitOps</div>
+              <div class="ring ring-outer"></div>
+              <div class="ring ring-mid"></div>
+              <div class="ring ring-inner"></div>
+              <div class="node node-git">Git</div>
+              <div class="node node-ci">CI</div>
+              <div class="node node-ghcr">GHCR</div>
+              <div class="node node-argo">ArgoCD</div>
+              <div class="node node-k8s">K8s</div>
+            </div>
+          </div>
+        </div>
       </div>
     </header>
 
     <main>
-      <section id="journey" class="section">
-        <div class="container">
-          <h2 class="section-title">
-            <span class="title-icon">🚀</span>
-            The Journey
-          </h2>
-          <div class="timeline">
-            <div class="timeline-item">
-              <div class="timeline-marker">1</div>
-              <div class="timeline-content">
-                <h3>Git Fundamentals</h3>
-                <p>
-                  Mastered branching, merging, and PR workflows. Understanding
-                  Git as version control foundation.
-                </p>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-marker">2</div>
-              <div class="timeline-content">
-                <h3>CI/CD with GitHub Actions</h3>
-                <p>
-                  Built automated pipelines for testing, building, and
-                  deploying. Image pushed to GHCR automatically.
-                </p>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-marker">3</div>
-              <div class="timeline-content">
-                <h3>Containerization</h3>
-                <p>
-                  Dockerized applications with multi-stage builds, security best
-                  practices, and optimized images.
-                </p>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="timeline-marker">4</div>
-              <div class="timeline-content">
-                <h3>Kubernetes & ArgoCD</h3>
-                <p>
-                  Deployed to K8s with GitOps. ArgoCD watches manifests and
-                  auto-syncs cluster state with Git.
-                </p>
-              </div>
-            </div>
+      <section class="feature-band">
+        <div class="container band-grid">
+          <div class="band-card">
+            <span class="band-kicker">Infra</span>
+            <strong>Declarative</strong>
+            <p>Every change is versioned and reproducible.</p>
+          </div>
+          <div class="band-card">
+            <span class="band-kicker">Ops</span>
+            <strong>Automated</strong>
+            <p>Delivery happens without manual drift.</p>
+          </div>
+          <div class="band-card">
+            <span class="band-kicker">Trust</span>
+            <strong>Auditable</strong>
+            <p>Git remains the history of truth.</p>
           </div>
         </div>
       </section>
 
-      <section id="architecture" class="section section-dark">
+      <section id="journey" class="section journey">
         <div class="container">
-          <h2 class="section-title">
-            <span class="title-icon">📐</span>
-            Architecture
-          </h2>
-          <div class="architecture-diagram">
-            <div class="arch-box arch-git">
-              <h4>Git Repository</h4>
-              <p>Single Source of Truth</p>
-              <span class="arch-icon">📦</span>
+          <div class="section-heading">
+            <p class="kicker">The journey</p>
+            <h2>From commit to cluster</h2>
+          </div>
+
+          <div class="steps-grid">
+            <article class="step-card">
+              <div class="step-number">01</div>
+              <h3>Git fundamentals</h3>
+              <p>
+                Branching, pull requests, and review workflows created a
+                reliable foundation for collaboration and change control.
+              </p>
+            </article>
+            <article class="step-card">
+              <div class="step-number">02</div>
+              <h3>CI/CD automation</h3>
+              <p>
+                GitHub Actions built and validated the app before pushing the
+                container image into the registry.
+              </p>
+            </article>
+            <article class="step-card">
+              <div class="step-number">03</div>
+              <h3>Containerization</h3>
+              <p>
+                Docker packages the application into a portable runtime that can
+                move cleanly between environments.
+              </p>
+            </article>
+            <article class="step-card">
+              <div class="step-number">04</div>
+              <h3>Kubernetes + ArgoCD</h3>
+              <p>
+                Kubernetes runs the workload, while ArgoCD keeps the cluster in
+                sync with the Git-defined desired state.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="architecture" class="section architecture">
+        <div class="container">
+          <div class="section-heading center">
+            <p class="kicker">Architecture</p>
+            <h2>One source of truth</h2>
+          </div>
+
+          <div class="pipeline-flow">
+            <div class="flow-box">
+              <span class="flow-icon">📦</span>
+              <h4>Git Repo</h4>
+              <p>Source of truth</p>
             </div>
-            <div class="arch-arrow">→</div>
-            <div class="arch-box arch-ci">
-              <h4>GitHub Actions</h4>
-              <p>Build & Push Image</p>
-              <span class="arch-icon">⚡</span>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box">
+              <span class="flow-icon">⚡</span>
+              <h4>Actions</h4>
+              <p>Build & push</p>
             </div>
-            <div class="arch-arrow">→</div>
-            <div class="arch-box arch-registry">
+            <div class="flow-arrow">→</div>
+            <div class="flow-box">
+              <span class="flow-icon">🐳</span>
               <h4>GHCR</h4>
-              <p>Container Registry</p>
-              <span class="arch-icon">🐳</span>
+              <p>Container registry</p>
             </div>
-            <div class="arch-arrow">→</div>
-            <div class="arch-box arch-argocd">
+            <div class="flow-arrow">→</div>
+            <div class="flow-box">
+              <span class="flow-icon">🔄</span>
               <h4>ArgoCD</h4>
-              <p>GitOps Operator</p>
-              <span class="arch-icon">🔄</span>
+              <p>Sync & reconcile</p>
             </div>
-            <div class="arch-arrow">→</div>
-            <div class="arch-box arch-k8s">
+            <div class="flow-arrow">→</div>
+            <div class="flow-box">
+              <span class="flow-icon">☸️</span>
               <h4>Kubernetes</h4>
-              <p>Orchestration</p>
-              <span class="arch-icon">☸️</span>
+              <p>Runtime platform</p>
             </div>
           </div>
-          <div class="gitops-principles">
-            <div class="principle">
-              <span class="principle-icon">📝</span>
+
+          <div class="principles-grid">
+            <div class="principle-card">
+              <span>📝</span>
               <h4>Declarative</h4>
-              <p>Everything defined as code</p>
+              <p>Everything is defined as code.</p>
             </div>
-            <div class="principle">
-              <span class="principle-icon">🔒</span>
+            <div class="principle-card">
+              <span>🔒</span>
               <h4>Versioned</h4>
-              <p>Immutable Git history</p>
+              <p>Immutable history and traceability.</p>
             </div>
-            <div class="principle">
-              <span class="principle-icon">🤖</span>
+            <div class="principle-card">
+              <span>🤖</span>
               <h4>Automated</h4>
-              <p>Self-healing deployments</p>
+              <p>Self-healing delivery loops.</p>
             </div>
-            <div class="principle">
-              <span class="principle-icon">🔍</span>
+            <div class="principle-card">
+              <span>🔍</span>
               <h4>Auditable</h4>
-              <p>Complete change history</p>
+              <p>Every change is visible and reviewable.</p>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="stack" class="section">
+      <section id="stack" class="section stack">
         <div class="container">
-          <h2 class="section-title">
-            <span class="title-icon">🛠️</span>
-            Technology Stack
-          </h2>
+          <div class="section-heading center">
+            <p class="kicker">Technology stack</p>
+            <h2>Tools that make GitOps real</h2>
+          </div>
+
           <div class="tech-grid">
-            <div class="tech-card">
+            <article class="tech-card">
               <div class="tech-icon">🐙</div>
               <h3>Git & GitHub</h3>
-              <p>
-                Version control, branching strategies, and collaborative
-                workflows
-              </p>
-              <div class="tech-tags">
+              <p>Version control, review flows, and collaborative delivery.</p>
+              <div class="tag-row">
                 <span>Branching</span>
                 <span>PRs</span>
                 <span>Hooks</span>
               </div>
-            </div>
-            <div class="tech-card">
+            </article>
+            <article class="tech-card">
               <div class="tech-icon">🎬</div>
               <h3>GitHub Actions</h3>
-              <p>
-                CI/CD pipelines for automated testing, building, and deployment
-              </p>
-              <div class="tech-tags">
+              <p>Pipeline automation for test, build, and deploy events.</p>
+              <div class="tag-row">
                 <span>Workflows</span>
                 <span>Secrets</span>
                 <span>Artifacts</span>
               </div>
-            </div>
-            <div class="tech-card">
+            </article>
+            <article class="tech-card">
               <div class="tech-icon">🐳</div>
               <h3>Docker</h3>
-              <p>
-                Container images with multi-stage builds and security hardening
-              </p>
-              <div class="tech-tags">
-                <span>Dockerfile</span>
+              <p>Portable application packaging across environments.</p>
+              <div class="tag-row">
+                <span>Images</span>
                 <span>GHCR</span>
                 <span>Optimization</span>
               </div>
-            </div>
-            <div class="tech-card">
+            </article>
+            <article class="tech-card">
               <div class="tech-icon">☸️</div>
               <h3>Kubernetes</h3>
-              <p>
-                Container orchestration with declarative manifests and Kustomize
-              </p>
-              <div class="tech-tags">
+              <p>Declarative orchestration for resilient runtime services.</p>
+              <div class="tag-row">
                 <span>Deployments</span>
                 <span>Services</span>
                 <span>Ingress</span>
               </div>
-            </div>
-            <div class="tech-card">
+            </article>
+            <article class="tech-card">
               <div class="tech-icon">🔄</div>
               <h3>ArgoCD</h3>
-              <p>
-                GitOps continuous delivery with automated sync and self-healing
-              </p>
-              <div class="tech-tags">
-                <span>Auto-Sync</span>
+              <p>Automated reconciliation between Git and cluster state.</p>
+              <div class="tag-row">
+                <span>Sync</span>
                 <span>Rollback</span>
-                <span>Multi-Env</span>
+                <span>Multi-env</span>
               </div>
-            </div>
-            <div class="tech-card">
+            </article>
+            <article class="tech-card">
               <div class="tech-icon">📦</div>
               <h3>Kustomize</h3>
-              <p>Template-free Kubernetes configuration management</p>
-              <div class="tech-tags">
+              <p>Environment overlays and configuration management.</p>
+              <div class="tag-row">
                 <span>Overlays</span>
                 <span>Patches</span>
                 <span>Bases</span>
               </div>
-            </div>
+            </article>
           </div>
         </div>
       </section>
 
-      <section class="section section-dark">
+      <section class="section deployment-frame">
         <div class="container">
-          <div class="cta-box">
+          <div class="cta-panel">
+            <p class="kicker">Deployment</p>
             <h2>Deployed via GitOps</h2>
             <p>
-              This website is automatically deployed using the GitOps workflow.
-              Every commit triggers CI/CD, and ArgoCD ensures the cluster
-              matches Git state.
+              This website is automatically deployed using GitOps practices.
+              Every commit enters the pipeline, and ArgoCD keeps the live
+              cluster aligned with the Git state.
             </p>
-            <div class="deployment-info">
-              <div class="info-item">
-                <span class="info-label">Environment:</span>
-                <span class="info-value" id="env-name">Development</span>
+
+            <div class="deploy-metrics">
+              <div class="metric-item">
+                <span>Environment</span>
+                <strong id="env-name">Development</strong>
               </div>
-              <div class="info-item">
-                <span class="info-label">Auto-Sync:</span>
-                <span class="info-value">Enabled ✓</span>
+              <div class="metric-item">
+                <span>Auto-sync</span>
+                <strong>Enabled ✓</strong>
               </div>
-              <div class="info-item">
-                <span class="info-label">Replicas:</span>
-                <span class="info-value">3 Pods</span>
+              <div class="metric-item">
+                <span>Replicas</span>
+                <strong>3 Pods</strong>
               </div>
             </div>
           </div>
@@ -267,42 +313,39 @@
       </section>
     </main>
 
-    <footer>
-      <div class="footer-content">
-        <div class="footer-section">
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div>
           <h4>GitOps Learning</h4>
-          <p>From Git fundamentals to production-ready infrastructure</p>
+          <p>From Git fundamentals to production-ready infrastructure.</p>
         </div>
-        <div class="footer-section">
-          <h4>Technologies</h4>
+        <div>
+          <h4>Stack</h4>
           <p>Git • Docker • Kubernetes • ArgoCD • GitHub Actions</p>
         </div>
-        <div class="footer-section">
+        <div>
           <h4>Status</h4>
           <p><span class="status-dot"></span> All systems operational</p>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>
-          © 2026 GitOps Journey | Built with ❤️, 🦦 and 🦭 | Deployed by ArgoCD
-        </p>
+        © 2026 GitOps Journey | Built with ❤️, 🦦 and 🦭
       </div>
     </footer>
 
     <script>
-      // Detect environment from hostname
       const hostname = window.location.hostname;
       const envElement = document.getElementById("env-name");
 
       if (hostname.includes("-dev")) {
         envElement.textContent = "Development";
-        envElement.style.color = "#10b981";
+        envElement.style.color = "#7ef0bb";
       } else if (hostname.includes("-staging")) {
         envElement.textContent = "Staging";
-        envElement.style.color = "#f59e0b";
+        envElement.style.color = "#fbbf24";
       } else if (hostname.includes("the-website.local")) {
         envElement.textContent = "Production";
-        envElement.style.color = "#ef4444";
+        envElement.style.color = "#ff8a8a";
       }
     </script>
   </body>

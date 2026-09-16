@@ -1,9 +1,5 @@
 FROM nginx:alpine
 
-LABEL maintainer="azad.hama123@gmail.com"
-LABEL version="1.0.0"
-LABEL description="GitOps Learning Website"
-
 COPY index.html /usr/share/nginx/html/index.html
 COPY style.css /usr/share/nginx/html/style.css
 

@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -10,7 +11,7 @@ spec:
   type: ClusterIP
   selector:
     app.kubernetes.io/name: the-website
-    app.kubernetes.io/instance: the-website   # placeholder — must match pod labels
+    app.kubernetes.io/instance: the-website
   ports:
     - name: http
       port: 8082
