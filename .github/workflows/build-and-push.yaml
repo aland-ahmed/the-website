@@ -1,3 +1,4 @@
+---
 name: Build Docker Image and Update Manifests
 
 on:
