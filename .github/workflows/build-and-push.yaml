@@ -10,6 +10,7 @@ on:
       - "*.css"
       - "Dockerfile"
       - "nginx.conf"
+      - ".github/workflows/**"
       - "!*.md" # Ignore markdown files
 
   workflow_dispatch:
@@ -76,8 +77,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
-          context: ./apps/website/
-          file: ./apps/website/Dockerfile
+          context: .
+          file: ./Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
@@ -97,7 +98,7 @@ jobs:
           NEW_IMAGE="${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.VERSION }}"
 
           # Update each overlay
-          for overlay_dir in infrastructure/kubernetes/overlays/*/; do
+          for overlay_dir in manifests/*/; do
             if [ -f "${overlay_dir}kustomization.yaml" ]; then
               echo "📝 Updating ${overlay_dir}"
 
@@ -115,13 +116,13 @@ jobs:
 
           echo ""
           echo "📋 Changes made:"
-          git diff infrastructure/kubernetes/overlays/
+          git diff manifests/
 
       - name: Verify Kustomize builds
         run: |
           echo "🔍 Verifying kustomize builds..."
 
-          for overlay_dir in infrastructure/kubernetes/overlays/*/; do
+          for overlay_dir in manifests/*/; do
             if [ -f "${overlay_dir}kustomization.yaml" ]; then
               overlay_name=$(basename "$overlay_dir")
               echo "Validating ${overlay_name}..."
@@ -140,7 +141,7 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add infrastructure/kubernetes/overlays/
+          git add manifests/
 
           if git diff --staged --quiet; then
             echo "ℹ️ No changes to commit"
