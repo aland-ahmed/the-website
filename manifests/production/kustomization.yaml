@@ -2,57 +2,56 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - ../base
+- ../base
 
 nameSuffix: -prod
 namespace: prod
 
 images:
-  - name: the-website
-    newName: ghcr.io/aland-ahmed/the-website
-    newTag: v1.0.0-7baac8b
+- name: the-website
+  newName: ghcr.io/aland-ahmed/the-website
+  newTag: v1.0.0-a3c0421
 
 labels:
-  - pairs:
-      app.kubernetes.io/instance: the-website-prod
-      app.kubernetes.io/version: v1.0.0-7baac8b
-      environment: prod
-    includeSelectors: false # never let kustomize touch selectors
-    includeTemplates: true # stamp these onto pod template labels too
+- includeTemplates: true
+  pairs:
+    app.kubernetes.io/instance: the-website-prod
+    app.kubernetes.io/version: v1.0.0-7baac8b
+    environment: prod
 
 replicas:
-  - count: 3
-    name: the-website
+- count: 3
+  name: the-website
 
 patches:
-  - patch: |-
-      - op: replace
-        path: /spec/rules/0/host
-        value: prod.the-website.local
-    target:
-      kind: Ingress
-      name: the-website
-  - patch: |-
-      - op: replace
-        path: /spec/selector/app.kubernetes.io~1instance
-        value: the-website-prod
-    target:
-      kind: Service
-      name: the-website
-  - patch: |-
-      - op: replace
-        path: /spec/selector/matchLabels/app.kubernetes.io~1instance
-        value: the-website-prod
-    target:
-      kind: Deployment
-      name: the-website
-  - patch: |-
-      - op: replace
-        path: /spec/minReplicas
-        value: 3
-      - op: replace
-        path: /spec/maxReplicas
-        value: 15
-    target:
-      kind: HorizontalPodAutoscaler
-      name: the-website
+- patch: |-
+    - op: replace
+      path: /spec/rules/0/host
+      value: prod.the-website.local
+  target:
+    kind: Ingress
+    name: the-website
+- patch: |-
+    - op: replace
+      path: /spec/selector/app.kubernetes.io~1instance
+      value: the-website-prod
+  target:
+    kind: Service
+    name: the-website
+- patch: |-
+    - op: replace
+      path: /spec/selector/matchLabels/app.kubernetes.io~1instance
+      value: the-website-prod
+  target:
+    kind: Deployment
+    name: the-website
+- patch: |-
+    - op: replace
+      path: /spec/minReplicas
+      value: 3
+    - op: replace
+      path: /spec/maxReplicas
+      value: 15
+  target:
+    kind: HorizontalPodAutoscaler
+    name: the-website
