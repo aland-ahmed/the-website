@@ -6,8 +6,8 @@ on:
     branches:
       - master
     paths:
-      - "./index.html"
-      - "./style.css"
+      - "index.html"
+      - "style.css"
 
 permissions:
   contents: read
