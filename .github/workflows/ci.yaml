@@ -8,6 +8,7 @@ on:
     paths:
       - "index.html"
       - "style.css"
+      - "public/**"
       - ".github/workflows/**"
 
 permissions:

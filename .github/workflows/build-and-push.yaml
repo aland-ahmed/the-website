@@ -8,8 +8,10 @@ on:
     paths:
       - "*.html"
       - "*.css"
+      - "public/**"
       - "Dockerfile"
       - "nginx.conf"
+      - ".dockerignore"
       - ".github/workflows/**"
       - "!*.md" # Ignore markdown files
 
@@ -47,13 +49,15 @@ jobs:
       - name: Generate version tag
         id: version
         run: |
-          SHORT_SHA=$(git rev-parse --short HEAD)
-          TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+          SHORT_SHA="$(git rev-parse --short HEAD)"
+          TIMESTAMP="$(date +%Y%m%d-%H%M%S)"
           VERSION="v1.0.0-${SHORT_SHA}"
 
-          echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
-          echo "SHORT_SHA=${SHORT_SHA}" >> $GITHUB_OUTPUT
-          echo "TIMESTAMP=${TIMESTAMP}" >> $GITHUB_OUTPUT
+          {
+            echo "VERSION=${VERSION}"
+            echo "SHORT_SHA=${SHORT_SHA}"
+            echo "TIMESTAMP=${TIMESTAMP}"
+          } >> "$GITHUB_OUTPUT"
 
           echo "📦 Generated version: ${VERSION}"
 
@@ -160,7 +164,7 @@ jobs:
 
       - name: Generate deployment summary
         run: |
-          cat >> $GITHUB_STEP_SUMMARY << EOF
+          cat >> "$GITHUB_STEP_SUMMARY" << EOF
           ## 🚀 Docker Image Build & Push Complete
 
           ### Image Details
